@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Converta — Convert any file, right in your browser</title>
+<meta name="description" content="Convert PDFs, images, documents and media files instantly. Nothing is uploaded — every conversion happens on your own device.">
+
+<!-- ================= FONTS ================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- ================= STYLES ================= -->
+<link rel="stylesheet" href="style.css">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8840058641649223" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="logo"><span class="dot"></span>CONVERTA</a>
+
+    </nav>
+  </div>
+</div>
+
+<main class="container">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Converta - convert in a click</span>
+      <h1>Drag, Drop, Download<br>Your one-stop shop for file conversions</h1>
+      <p class="sub">Its simple. drop a file, let Converta do all the work</p>
+      <div class="trust">
+        <span>✓ <b>24</b> conversions</span>
+        <span>✓ Runs 100% locally</span>
+        <span>✓ Unlimited downloads</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="dropzone" id="dropzone">
+        <span class="gate-badge">dropbox</span>
+        <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        <h3>Drag a file here</h3>
+        <p>or <button type="button" class="browse-btn" id="browseBtn">browse your device</button></p>
+        <input type="file" id="fileInput" hidden>
+        <p class="hint" id="dzHint">PDF · Word · Excel · PowerPoint · JPG · PNG · WEBP · HEIC · MP4 · MOV · MKV · MP3 · WAV · FLAC · GIF · EPUB</p>
+        <div id="fileChipHolder"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AD SLOT 1 ================= -->
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+   
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8840058641649223"
+         data-ad-slot="1220496138"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- ================= TICKET PICKER ================= -->
+  <section class="ticket-picker" id="ticketPicker" hidden>
+    <p class="muted">Here's where <span id="srcExtLabel">your file</span> can go.</p>
+    <div class="ticket-grid" id="ticketGrid"></div>
+  </section>
+
+  <!-- ================= FULL FORMAT BOARD (browse without a file) ================= -->
+  <section class="ticket-picker" id="formats">
+    <h2>Full Conversion Options</h2><p>Drop a matching file above to use one.</p>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-cat="all">All</button>
+      <button class="tab" data-cat="documents">Documents</button>
+      <button class="tab" data-cat="images">Images</button>
+      <button class="tab" data-cat="media">Audio &amp; video</button>
+    </div>
+    <div class="ticket-grid" id="boardGrid"></div>
+  </section>
+
+  <!-- ================= CONVERT PANEL ================= -->
+  <section class="convert-panel" id="convertPanel" hidden>
+    <div class="route-display">
+      <span id="routeFrom">PDF</span><span class="arrow">→</span><span id="routeTo">DOCX</span>
+    </div>
+    <div class="file-name" id="panelFileName"></div>
+
+    <button class="btn btn-primary" id="convertBtn">Convert file</button>
+
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-label" id="progressLabel">Preparing…</div>
+    </div>
+
+    <div class="result" id="resultBox">
+      <div class="result-info">
+        Your file is ready.
+        <b id="resultFileName"></b>
+      </div>
+      <button class="arrow-btn" id="downloadBtn" title="Download to your computer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5"/><path d="M4 20h16"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= AD SLOT 2 — in-content rectangle ================= -->
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8840058641649223"
+         data-ad-slot="6270280863"
+         data-ad-format="rectangle"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- ================= HOW IT WORKS ================= -->
+  <section class="how" id="how">
+    <h2>How it works</h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="k">01</div>
+        <h4>Select</h4>
+        <p>Drag your file onto the dropbox, or browse for it. It stays on your device the entire time.</p>
+      </div>
+      <div class="how-step">
+        <div class="k">02</div>
+        <h4>Choose Format</h4>
+        <p>Converta shows you every format your file can convert to.</p>
+      </div>
+      <div class="how-step">
+        <div class="k">03</div>
+        <h4>Convert</h4>
+        <p>Hit convert, then tap the arrow to download the finished file straight to your computer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AD SLOT 3 — footer rectangle ================= -->
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8840058641649223"
+         data-ad-slot="7220400456"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+</main>
+
+<footer>
+  <div class="container foot-inner">
+    <span>© <span id="year"></span>Converta.click. Files are processed on your device and are never uploaded anywhere.</span>
+    <span><a href="error.html">Status</a></span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>

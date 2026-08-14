@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Something went sideways — Converta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="logo"><span class="dot"></span>CONVERTA</a>
+  </div>
+</div>
+
+<div class="error-page">
+  <div class="error-card">
+    <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <path d="M12 9v4M12 17h.01"/>
+      <path d="M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L14.7 3.86a2 2 0 0 0-3.4 0Z"/>
+    </svg>
+    <div class="error-code">ERROR</div>
+    <h1></h1>
+    <p id="errorMessage">Something went wrong while converting your file. Nothing was lost, and nothing was uploaded — you can just try again.</p>
+    <a class="btn btn-primary" href="index.html">RETURN TO HOME</a>
+  </div>
+</div>
+
+<script>
+  var reason = sessionStorage.getItem('gate_error_reason');
+  if (reason) {
+    document.getElementById('errorMessage').textContent = reason;
+    sessionStorage.removeItem('gate_error_reason');
+  }
+  // Also supports being set directly as a web server's custom error document,
+  // e.g. for a 404: index.html?...  ->  error.html works standalone with no query params too.
+</script>
+
+</body>
+</html>
