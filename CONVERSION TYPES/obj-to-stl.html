@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OBJ to STL - Converta</title>
+<meta name="description" content="Convert OBJ to STL. Nothing is uploaded — every conversion occurs locally. Converta - its as easy as drag, drop, and download!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+}}
+</script>
+<style>
+:root{
+  --paper:#F1F3F6; --surface:#FFFFFF; --ink:#000000; --ink-soft:#6a32c5;
+  --line:#D9DEE5; --accent:#3452FF; --accent-ink:#FFFFFF; --stamp:#6c1091;
+  --ok:#000000; --err:#E23B3B; --radius:14px; --radius-sm:8px;
+  --shadow:0 10px 30px -12px rgba(18,21,28,.18);
+  --font-display:'Space Grotesk',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);line-height:1.5;-webkit-font-smoothing:antialiased;}
+a{color:var(--accent);}
+.container{max-width:920px;margin:0 auto;padding:0 24px;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(241,243,246,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:920px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);}
+.logo .dot{width:9px;height:9px;border-radius:50%;background:var(--stamp);display:inline-block;}
+.home-link{font-size:13px;color:var(--ink-soft);text-decoration:none;font-weight:600;}
+.home-link:hover{color:var(--ink);}
+.hero{padding:56px 0 8px;text-align:center;}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;display:inline-block;margin-bottom:14px;}
+.hero h1{font-family:var(--font-display);font-size:clamp(28px,4.4vw,44px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;}
+.hero p.sub{color:var(--ink-soft);font-size:16px;max-width:52ch;margin:0 auto 4px;}
+.trust{margin-top:18px;display:flex;gap:18px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);}
+.trust span{display:flex;align-items:center;gap:6px;}
+.dropzone{background:var(--surface);border:2px dashed var(--line);border-radius:var(--radius);padding:40px 24px;text-align:center;box-shadow:var(--shadow);transition:border-color .15s ease, transform .15s ease;position:relative;margin:32px 0;}
+.dropzone.drag{border-color:var(--accent);transform:scale(1.01);}
+.gate-badge{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--ink-soft);border:1px solid var(--line);border-radius:20px;padding:4px 10px;display:inline-block;margin-bottom:16px;}
+.dz-icon{width:44px;height:44px;margin:0 auto 14px;color:var(--accent);}
+.dropzone h3{margin:0 0 6px;font-size:17px;font-family:var(--font-display);}
+.dropzone p{margin:0;color:var(--ink-soft);font-size:14px;}
+.browse-btn{background:none;border:none;color:var(--accent);font-weight:700;cursor:pointer;text-decoration:underline;font-size:inherit;padding:0;}
+.hint{margin-top:14px;font-size:12px;color:var(--ink-soft);opacity:.8;}
+.progress-wrap{margin:18px auto 0;max-width:420px;display:none;}
+.progress-wrap.show{display:block;}
+.progress-track{height:8px;border-radius:6px;background:var(--paper);overflow:hidden;border:1px solid var(--line);}
+.progress-bar{height:100%;width:0%;background:var(--accent);transition:width .2s ease;}
+.progress-label{font-size:12px;color:var(--ink-soft);margin-top:8px;font-family:var(--font-mono);}
+.result{margin:18px auto 0;max-width:420px;padding-top:18px;border-top:1px dashed var(--line);display:none;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.result.show{display:flex;}
+.result .result-info{font-size:14px;text-align:left;}
+.result .result-info b{display:block;font-family:var(--font-mono);font-size:15px;}
+.arrow-btn{width:50px;height:50px;border-radius:50%;background:var(--ok);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -6px rgba(14,165,160,.55);}
+.arrow-btn svg{width:20px;height:20px;}
+.ad-slot{margin:36px auto;text-align:center;max-width:920px;}
+.ad-slot .ad-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);opacity:.55;margin-bottom:6px;}
+.ad-slot ins{margin:0 auto;}
+.inverse{text-align:center;margin:30px 0 10px;}
+.inverse a{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:30px;padding:10px 20px;font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;}
+.inverse a:hover{border-color:var(--accent);color:var(--accent);}
+footer{border-top:1px solid var(--line);margin-top:50px;padding:26px 0;}
+.foot-inner{max-width:920px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--ink-soft);}
+footer a{color:var(--ink-soft);}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:30px;font-size:13px;opacity:0;pointer-events:none;transition:all .25s ease;z-index:100;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media (max-width:560px){.dropzone{padding:30px 16px;}}
+@media (prefers-reduced-motion: reduce){*{transition:none !important; scroll-behavior:auto !important;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="logo"><span class="dot"></span>CONVERTA</a>
+    <a href="index.html" class="home-link">← All conversions</a>
+  </div>
+</div>
+
+<main class="container">
+  <section class="hero">
+    <span class="eyebrow">OBJ → STL · runs on your device</span>
+    <h1>OBJ to STL, instantly</h1>
+    <p class="sub">Drop a OBJ file below. Converta converts it to STL the moment it lands — no upload, no waiting on a server, no click required.</p>
+    <div class="trust">
+      <span>✓ Converts on drop</span>
+      <span>✓ Runs 100% locally</span>
+      <span>✓ Nothing is uploaded</span>
+    </div>
+
+    <div class="dropzone" id="dropzone">
+      <span class="gate-badge">dropbox</span>
+      <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      <h3>Drag a OBJ file here</h3>
+      <p>or <button type="button" class="browse-btn" id="browseBtn">browse your device</button></p>
+      <input type="file" id="fileInput" accept=".obj" hidden>
+      <p class="hint">OBJ · STL</p>
+      <p class="hint">Converts mesh geometry only — materials, textures, and animation may not carry over. </p>
+
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+        <div class="progress-label" id="progressLabel">Preparing…</div>
+      </div>
+      <div class="result" id="resultBox">
+        <div class="result-info">Your file is ready. <b id="resultFileName"></b></div>
+        <button class="arrow-btn" id="downloadBtn" title="Download to your computer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5"/><path d="M4 20h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="inverse"><a href="stl-to-obj.html">Need it the other way? Convert STL to OBJ →</a></div>
+  </section>
+
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8840058641649223" data-ad-slot="6270280863" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span>© <span id="year"></span> Converta.click. Files are processed on your device and are never uploaded anywhere.</span>
+    
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8840058641649223" crossorigin="anonymous"></script>
+<script type="module">
+document.getElementById('year').textContent = new Date().getFullYear();
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
+function setProgress(pct,label){ const w=document.getElementById('progressWrap'); w.classList.add('show'); document.getElementById('progressBar').style.width=pct+'%'; document.getElementById('progressLabel').textContent = label || (pct+'%'); }
+function download(blob,filename){ const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),4000); }
+function baseName(name){ return name.replace(/\.[^/.]+$/, ''); }
+function goToErrorPage(reason){ sessionStorage.setItem('gate_error_reason', reason || 'Something went wrong while converting your file.'); window.location.href='error.html'; }
+
+const dropzone=document.getElementById('dropzone');
+const fileInput=document.getElementById('fileInput');
+document.getElementById('browseBtn').addEventListener('click', ()=>fileInput.click());
+dropzone.addEventListener('click', (e)=>{ if(e.target===dropzone) fileInput.click(); });
+['dragenter','dragover'].forEach(evt=> dropzone.addEventListener(evt, e=>{ e.preventDefault(); dropzone.classList.add('drag'); }));
+['dragleave','drop'].forEach(evt=> dropzone.addEventListener(evt, e=>{ e.preventDefault(); dropzone.classList.remove('drag'); }));
+dropzone.addEventListener('drop', e=>{ if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', e=>{ if(e.target.files.length) handleFile(e.target.files[0]); });
+['dragover','drop'].forEach(evt=> window.addEventListener(evt, e=>e.preventDefault()));
+window.addEventListener('drop', e=>{ if(e.target.closest('#dropzone')) return; if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+
+const _loaded={};
+function loadScript(src){
+  if(_loaded[src]) return _loaded[src];
+  _loaded[src]=new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(new Error('Failed to load '+src)); document.head.appendChild(s); });
+  return _loaded[src];
+}
+
+async function handleFile(file){
+  document.getElementById('resultBox').classList.remove('show');
+  setProgress(6,'Reading file…');
+  try {
+    const { blob, filename } = await convert(file, setProgress);
+    setProgress(100,'Done');
+    document.getElementById('resultFileName').textContent = filename;
+    document.getElementById('resultBox').classList.add('show');
+    document.getElementById('downloadBtn').onclick = ()=>download(blob, filename);
+    download(blob, filename); // instant download the moment it's ready
+  } catch(err) {
+    console.error(err);
+    goToErrorPage(err.message || 'The conversion could not be completed.');
+  }
+}
+
+
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { STLExporter } from 'three/addons/exporters/STLExporter.js';
+async function convert(file, setProgress){
+  setProgress(20,'Reading OBJ file…');
+  
+  const text = await file.text();
+  const group = new OBJLoader().parse(text);
+  
+  setProgress(65,'Rebuilding as STL…');
+  
+  const out = new STLExporter().parse(group, { binary:false });
+  const blob = new Blob([out], { type:'model/stl' });
+  return { blob, filename: baseName(file.name) + '.stl' };
+  
+}
+
+</script>
+</body>
+</html>
